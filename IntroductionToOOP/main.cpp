@@ -23,7 +23,14 @@ public:
 	{
 		this->y = y;
 	}
+	double distance(double x, double y)
+	{
+		double dist;
 
+		dist = sqrt(this->x * this->x + this->y * this->y);
+
+		return dist;
+	}
 
 };
 
@@ -55,6 +62,10 @@ void main()
 	A.set_y(3);
 
 	cout << A.get_x() << "\t" << A.get_y() << endl;
+
+	double d = A.distance(A.get_x(),A.get_y());
+
+	cout << d;
 
 }
 // 1. »нкапсул€ци€ - Encapsulation;
