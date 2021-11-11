@@ -25,11 +25,10 @@ public:
 	}
 	double distance(double x, double y)
 	{
-		double dist;
-
+		/*double dist;
 		dist = sqrt(this->x * this->x + this->y * this->y);
-
-		return dist;
+		return dist;*/
+		return sqrt(this->x * this->x + this->y * this->y);
 	}
 
 };
@@ -62,10 +61,9 @@ void main()
 	A.set_y(3);
 
 	cout << A.get_x() << "\t" << A.get_y() << endl;
-
-	double d = A.distance(A.get_x(),A.get_y());
-
-	cout << d;
+		
+	cout << A.distance(A.get_x(),A.get_y());
+		
 
 }
 // 1. Инкапсуляция - Encapsulation;
