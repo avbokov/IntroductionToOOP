@@ -1,12 +1,16 @@
 ﻿// IntroductionToOOP
 #include<iostream>
 using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
 
 class Point // создавая структуру или класс, мы создаем новый тип данных
 {
 	double x;
 	double y;
-public:
+
+public: // открываем интерфейсную часть класса
 	double get_x()const
 	{
 		return x;
@@ -30,10 +34,55 @@ public:
 		return dist;*/
 		return sqrt(this->x * this->x + this->y * this->y);
 	}
+	// Constructors:
+	//Point()
+	//{
+	//	x = y = double(); // в обе координаты кладём значение по умолчанию для double;
+	//	cout << "DefaultConstructor:\t" << this << endl;
+	//}
+	/*Point(double x)
+	{
+		this->x = x;
+		this->y = 0;
+		cout << "SingleArgumentConstructor:" << this << endl;
+	}*/
+	Point(double x = 0, double y = 0)
+	{
+		this->x = x;
+		this->y = y;
+		cout << "Costructor:\t" << this << endl;
+	}
+	Point(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyCostructor:\t" << this << endl;
+	}
+	~Point()
+	{
+		cout << "Destructor:\t" << this << endl;
+	}
 
+	//						Operators:
+	 
+	Point operator=(const Point& other)
+	{
+		this->x = other.x;
+		this->y = other.y;
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this;
+	}
+
+	//						 Methods:
+
+	void print()const // константный метод, который не изменят объект
+	{
+		cout << "X = " << x << "\tY = " << y << endl;
+	}
 };
 
 //#define STRUCT_POINT
+//#define CONSTRUCTORS_CHECK
 
 void main()
 {
@@ -55,18 +104,45 @@ void main()
 	cout << pA->x << "\t" << pA->y << endl;
 #endif STRUCT_POINT
 
-	Point A;
+#ifdef CONSTRUCTORS_CHECK
+	cout << int() << endl; // Значение по умолчанию для int.
+	Point A; // Default constructor
 
-	A.set_x(2);
-	A.set_y(3);
+	/*A.set_x(2);
+	A.set_y(3);*/
 
 	cout << A.get_x() << "\t" << A.get_y() << endl;
-		
-	cout << A.distance(A.get_x(),A.get_y());
+
+	Point B = 5; // Single-argument constructor
+	B.print();
+
+	Point C(7); // Single-argument constructor
+	C.print();
+
+	Point D(4, 5);
+	D.print();
+
+	Point E = D; // Copy constructor
+	E.print();
+
+	Point F;	// Default Constructor
+	F = E;		// Copy Assignment
+	F.print();
+#endif // CONSTRUCTORS_CHECK
+	
+	int a, b, c;
+	a = b = c = 0;
+
+	Point A, B, C;
+	cout << "\n-----------------------------------------" << endl;
+	A = B = C = Point(2, 3);
+	cout << "\n-----------------------------------------" << endl;
+
+	//cout << A.distance(A.get_x(),A.get_y());
 		
 
 }
-// 1. Инкапсуляция - Encapsulation;
+// 1. Инкапсуляция - Encapsulation; - святая святых ООП!
 // 
 // Модификаторы доступы:
 //		private : закрытые поля, доступны только внутри класса/структуры
@@ -79,4 +155,13 @@ void main()
 // 3. Полиморфизм - Polymorphism;
 // 
 // 
+// 1. Constructor - это метод, который создает объект;
+//		- с параметрами;
+//		- без параметров;
+//		- по умолчанию - это конструктор, который МОЖЕТ БЫТЬ ВЫЗВАН без параметров;
+//		- конструктор копирования;
+//		- конструктор переноса;
+// 
+// 2. ~Destructor - это метод, который уничтожает объект по звавершении его времени жизни;
+// 3.AssignmentOperator;
 //
