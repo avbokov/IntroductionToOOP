@@ -27,13 +27,15 @@ public: // открываем интерфейсную часть класса
 	{
 		this->y = y;
 	}
-	double distance(double x, double y)
+	double distance(const Point& other)
 	{
-		/*double dist;
-		dist = sqrt(this->x * this->x + this->y * this->y);
-		return dist;*/
-		return sqrt(this->x * this->x + this->y * this->y);
+		double x_distance = this->x - other.x;
+		double y_distance = this->y - other.y;
+		double distance = sqrt(x_distance * x_distance + y_distance * x_distance);
+
+		return distance;
 	}
+
 	// Constructors:
 	//Point()
 	//{
@@ -65,12 +67,33 @@ public: // открываем интерфейсную часть класса
 
 	//						Operators:
 	 
-	Point operator=(const Point& other)
+	Point& operator=(const Point& other)
 	{
+		
 		this->x = other.x;
 		this->y = other.y;
 		cout << "CopyAssignment:\t" << this << endl;
+		
 		return *this;
+	}
+	Point& operator+=(const Point& other)
+	{
+		this->x += other.x;
+		this->y += other.y;
+		return *this;
+	}
+	Point operator++() // Prefix increment
+	{
+		x++;
+		y++;
+		return *this;
+	}
+	Point operator++(int)
+	{
+		Point old = *this; // сохраняем старое значение объекта
+		x++;
+		y++;
+		return old;
 	}
 
 	//						 Methods:
@@ -81,8 +104,41 @@ public: // открываем интерфейсную часть класса
 	}
 };
 
+double distance(const Point& A, const Point& B)
+{
+	return sqrt(pow(A.get_x() - B.get_x(), 2)+ pow(A.get_y() - B.get_y(), 2));
+}
+
+Point operator+(const Point& left, const Point& right)
+{
+	Point result; // Локальный объект, в который будет сохранён результат
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
+
+Point operator-(const Point& left, const Point& right)
+{
+	Point result(left.get_x() - right.get_x(), left.get_y() - right.get_y());
+	return result;
+}
+
+Point operator*(const Point& left, const Point& right)
+{
+	return Point(left.get_x() * right.get_x(), left.get_y() * right.get_y());
+}
+
+ostream& operator<<(ostream& os, const Point& obj)
+{
+	os << "X = " << obj.get_x() << "\tY = " << obj.get_y();
+	return os;
+}
+
+
 //#define STRUCT_POINT
+//#define DISTANCE_CHECK
 //#define CONSTRUCTORS_CHECK
+//#define ASSIGMENT_CHECK
 
 void main()
 {
@@ -103,6 +159,20 @@ void main()
 	Point* pA = &A; // создаем или объявляем указатель на Point
 	cout << pA->x << "\t" << pA->y << endl;
 #endif STRUCT_POINT
+
+#ifdef DISTANCE_CHECK
+	Point A(2, 3);
+	Point B(3, 4);
+	cout << "\n---------------------------------------------------------------\n";
+	cout << "Расстояние от точки А до точки В: " << A.distance(B) << endl;
+	cout << "\n---------------------------------------------------------------\n";
+	cout << "Расстояние от точки B до точки A: " << B.distance(A) << endl;
+	cout << "\n---------------------------------------------------------------\n";
+	cout << "Расстояние между точками А и В: " << distance(A, B) << endl;
+	cout << "\n---------------------------------------------------------------\n";
+	cout << "Расстояние между точками B и A: " << distance(B, A) << endl;
+	cout << "\n---------------------------------------------------------------\n";
+#endif // DISTANCE_CHECK
 
 #ifdef CONSTRUCTORS_CHECK
 	cout << int() << endl; // Значение по умолчанию для int.
@@ -130,6 +200,7 @@ void main()
 	F.print();
 #endif // CONSTRUCTORS_CHECK
 	
+#ifdef ASSIGMENT_CHECK
 	int a, b, c;
 	a = b = c = 0;
 
@@ -137,11 +208,48 @@ void main()
 	cout << "\n-----------------------------------------" << endl;
 	A = B = C = Point(2, 3);
 	cout << "\n-----------------------------------------" << endl;
+	A.print();
+	B.print();
+	C.print();
+#endif // ASSIGMENT_CHECK
 
-	//cout << A.distance(A.get_x(),A.get_y());
+//#define ARITHMETICAL_OPERATORS_CHECK
+
+	int a = 2;
+	int b = 2;
+	int c = a + b;
+
+	Point A(2, 3);
+	Point B(3, 4);
+	A += B;
+	A.print();
+
+	B = A++;
+	/*A.print();
+	B.print();*/
+	cout << A << endl;
+	cout << B << endl;
+
+	/*for (Point i = 0; i.get_x() < 10; i++)
+	{
+		i.print();
+	}*/
+
+
+#ifdef ARITHMETICAL_OPERATORS_CHECK
+	Point C = A + B;
+	C.print();
+	Point D = A - B;
+	D.print();
+	(A * B).print();
+#endif // ARITHMETICAL_OPERATORS_CHECK
+
 		
 
 }
+
+
+
 // 1. Инкапсуляция - Encapsulation; - святая святых ООП!
 // 
 // Модификаторы доступы:
@@ -165,3 +273,30 @@ void main()
 // 2. ~Destructor - это метод, который уничтожает объект по звавершении его времени жизни;
 // 3.AssignmentOperator;
 //
+
+//			Operators overloading rules:
+// 1. Перегрузить можно только существующие операторы:
+// 
+//	+ перегружается
+//	++ перегружается
+//	* перегружается
+//	** НЕ перегружается
+// 
+//	2. Не все существующие операторы можно перегрузить
+// 
+//	НЕ перегружаются:
+//	? : - ternary;
+//	:: Scope operator (оператор разрешения видимости);
+//	. - Point optrator (оператор прямого досутпа);
+//	.* - Pointer to class member operatpr;
+//	#
+//	##
+//
+// 3. Перегруженные операторы сохраняют приоритет.
+// 4. Переопределить поведение операторов над встроенными типами невозможно.
+// 
+//
+
+
+
+
