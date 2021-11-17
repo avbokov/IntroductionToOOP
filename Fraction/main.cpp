@@ -9,6 +9,7 @@ class Fraction // создавая структуру или класс, мы с
 {
 	int ch;
 	int zn;
+	int part;
 
 public: // открываем интерфейсную часть класса
 	
@@ -20,6 +21,10 @@ public: // открываем интерфейсную часть класса
 	{
 		return zn;
 	}
+	int get_part()const
+	{
+		return part;
+	}
 	void set_ch(int ch)
 	{
 		this->ch = ch;
@@ -28,11 +33,25 @@ public: // открываем интерфейсную часть класса
 	{
 		this->zn = zn;
 	}
+	void set_part(int part)
+	{
+		this->part = part;
+	}
 	
 	Fraction(int ch = 1, int zn = 1)
 	{
-		this->ch = ch;
-		this->zn = zn;
+		int noz;
+		for (int i = 1; i <= zn; i++)
+		{
+			if (ch % i == 0 && zn % i == 0) 
+			{
+				noz = i; 
+			}
+		}
+		
+		this->ch = ch/noz;
+		this->zn = zn/noz;
+
 		cout << "Costructor:\t" << this << endl;
 	}
 	Fraction(const Fraction& other)
@@ -58,6 +77,9 @@ public: // открываем интерфейсную часть класса
 	}
 	
 	//						 Methods:
+
+
+
 	
 	void print()const // константный метод, который не изменят объект
 	{
@@ -69,7 +91,7 @@ public: // открываем интерфейсную часть класса
 Fraction operator+(const Fraction& left, const Fraction& right)
 {
 	Fraction result; // Локальный объект, в который будет сохранён результат
-	result.set_ch((right.get_zn() * left.get_ch()) + (left.get_zn()*right.get_ch()));
+	result.set_ch((right.get_zn() * left.get_ch()) + (left.get_zn() * right.get_ch()));
 	result.set_zn(left.get_zn() * right.get_zn());
 	return result;
 }
@@ -111,7 +133,7 @@ void main()
 {
 	setlocale(LC_ALL, "");
 
-	Fraction A(4, 5);
+	Fraction A(4, 16);
 	Fraction B(2, 3);
 	
 	A.print();

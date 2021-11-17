@@ -27,14 +27,6 @@ public: // открываем интерфейсную часть класса
 	{
 		this->y = y;
 	}
-	double distance(const Point& other)
-	{
-		double x_distance = this->x - other.x;
-		double y_distance = this->y - other.y;
-		double distance = sqrt(x_distance * x_distance + y_distance * x_distance);
-
-		return distance;
-	}
 
 	// Constructors:
 	//Point()
@@ -97,6 +89,15 @@ public: // открываем интерфейсную часть класса
 	}
 
 	//						 Methods:
+
+	double distance(const Point& other)
+	{
+		double x_distance = this->x - other.x;
+		double y_distance = this->y - other.y;
+		double distance = sqrt(x_distance * x_distance + y_distance * x_distance);
+
+		return distance;
+	}
 
 	void print()const // константный метод, который не изменят объект
 	{
