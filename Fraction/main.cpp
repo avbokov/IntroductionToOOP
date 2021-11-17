@@ -9,7 +9,7 @@ class Fraction // создавая структуру или класс, мы с
 {
 	int ch;
 	int zn;
-	int part;
+
 
 public: // открываем интерфейсную часть класса
 	
@@ -21,10 +21,6 @@ public: // открываем интерфейсную часть класса
 	{
 		return zn;
 	}
-	int get_part()const
-	{
-		return part;
-	}
 	void set_ch(int ch)
 	{
 		this->ch = ch;
@@ -33,32 +29,35 @@ public: // открываем интерфейсную часть класса
 	{
 		this->zn = zn;
 	}
-	void set_part(int part)
-	{
-		this->part = part;
-	}
-	
+		
 	Fraction(int ch = 1, int zn = 1)
 	{
-		int noz;
-		for (int i = 1; i <= zn; i++)
+		if (zn == 0)
+		{
+			cout << "Нулевой знаменатель недопустим! " << endl;
+			zn = 1;
+		}
+		else this->zn = zn;
+
+		int nod;
+		for (int i = 1; i <= ch; i++)
 		{
 			if (ch % i == 0 && zn % i == 0) 
 			{
-				noz = i; 
+				nod = i;
 			}
 		}
 		
-		this->ch = ch/noz;
-		this->zn = zn/noz;
+		this->ch = ch/nod;
+		this->zn = zn/nod;
 
-		cout << "Costructor:\t" << this << endl;
+		cout << "Constructor:\t" << this << endl;
 	}
 	Fraction(const Fraction& other)
 	{
 		this->ch = other.ch;
 		this->zn = other.zn;
-		cout << "CopyCostructor:\t" << this << endl;
+		cout << "CopyConstructor:\t" << this << endl;
 	}
 	~Fraction()
 	{
@@ -134,7 +133,7 @@ void main()
 	setlocale(LC_ALL, "");
 
 	Fraction A(4, 16);
-	Fraction B(2, 3);
+	Fraction B(2, 0);
 	
 	A.print();
 	B.print();
