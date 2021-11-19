@@ -5,6 +5,9 @@ using std::cin;
 using std::cout;
 using std::endl;
 
+class Fraction;
+Fraction operator*(Fraction left, Fraction right);
+
 class Fraction
 {
 	int integer;		// Целая часть
@@ -85,6 +88,39 @@ public:
 		cout << "Destructor:\t" << this << endl;
 	}
 
+	//			Operators:
+
+	Fraction& operator=(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyAssignment:\t" << this << endl;
+		return *this; // ОПЕРАТОР ПРИСВАИВАНИЯ ВСЕГДА ВОЗВРАЩАЕТ РАЗИМЕНОВАННЫЙ THIS !!!
+	}
+
+	Fraction& operator*=(const Fraction& other)
+	{
+		return *this = *this * other;
+	}
+
+
+	//			Increment/Decrement
+
+	Fraction& operator++() // префикс
+	{
+		integer++;
+		return *this;
+	}
+	
+	Fraction operator++(int) // постфикс
+	{
+		Fraction old = *this;
+		integer++;
+		return old;
+	}
+
+
 	//			Methods:
 
 	Fraction& to_improper()
@@ -111,16 +147,6 @@ public:
 		return inverted;
 	}
 
-	Fraction& operator=(const Fraction& other)
-	{
-
-		this->integer = other.integer;
-		this->numerator = other.numerator;
-		this->denominator = other.denominator;
-		cout << "CopyAssignment:\t" << this << endl;
-
-		return *this;
-	}
 
 	Fraction operator+=(Fraction right)
 	{
@@ -212,10 +238,62 @@ Fraction operator-(Fraction left, Fraction right)
 	).to_proper();
 }
 
+ostream& operator<<(ostream& os, const Fraction& obj)
+{
+	if (obj.get_integer()) os << obj.get_integer();
+	if (obj.get_numerator())
+	{
+		if (obj.get_integer()) os << "(";
+		os << obj.get_numerator() << "/" << obj.get_denominator();
+		if (obj.get_integer()) os << ")";
+	}
+	else if (obj.get_integer() == 0) os << 0;
+	return os;
+}
 
+istream& operator>>(istream& is, Fraction& obj)
+{
+	/*int integer;
+	int numerator;
+	int denominator;
+	is >> integer >> numerator >> denominator;
+	obj.set_integer(integer);
+	obj.set_numerator(numerator);
+	obj.set_denominator(denominator);*/
+
+	const int SIZE = 80; // размер строки в байтах!
+	char buffer[SIZE] = {};
+	//is >> buffer;
+	is.getline(buffer, SIZE); // позволяет ввести строку с пробелами
+	//5
+	//1/2
+	//2(3/4)
+	//2 3/4
+	char delimiters[] = "() /"; // разделители, по которым мы будем делать строку
+	char* number[5];	// в этом массиве будут храниться указатели на числа в buffer
+	int n = 0; // счётчик прочитанных из строки числе
+	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
+	{
+		number[n++] = pch;
+	}
+	switch (n)
+	{
+		// int atoi(char* str) - преобразует строку в целое число
+	case 1: obj.set_integer(atoi(number[0])); break;
+	case 2:
+		obj.set_numerator(atoi(number[0])); 
+		obj.set_denominator(atoi(number[1]));
+		break;
+	case 3:
+		obj.set_integer(atoi(number[0]));
+		obj.set_numerator(atoi(number[1]));
+		obj.set_denominator(atoi(number[2]));
+	}
+	return is;
+}
 
 //#define CONSTRUCTORS_CHECK
-
+//#define ARITHMETICAL_OPERATORS_CHECK
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -235,9 +313,11 @@ void main()
 	D.print();
 #endif // CONSTRUCTORS_CHECK
 
-	int a = 2;
-	int b = 3;
-	int c = a * b;
+#ifdef ARITHMETICAL_OPERATORS_CHECK
+	double a = 2;
+	double b = 3;
+	double c = a * b;
+	c++;
 
 	Fraction A(2, 3, 4);
 	/*A.to_improper();
@@ -246,21 +326,32 @@ void main()
 	A.print();*/
 	Fraction B(3, 4, 5);
 
-	A += B;
+	A *= B;
+	A = B++;
 	A.print();
-	
-	A -= B;
+	B.print();
+
+	cout << A << endl;
+	cout << B << endl;
+
+	/*A *= B;
+	A.print();*/
+
+	/*A += B;
 	A.print();
 
-	Fraction C = A * B;
+	A -= B;
+	A.print();*/
+
+	/*Fraction C = A * B;
 	C.print();
 
 	C = A / B;
 	C.print();
-	
+
 	C = A + B;
 	C.print();
-	
+
 	C = A - B;
 	C.print();
 
@@ -270,6 +361,12 @@ void main()
 	A = B = C = Fraction(1, 2, 3);
 	A.print();
 	B.print();
-	C.print();
+	C.print();*/
+#endif // ARITHMETICAL_OPERATORS_CHECK
+
+	Fraction A;
+	cout << "Введите простую дробь: "; cin >> A;
+	cout << A << endl;
+	
 
 }
