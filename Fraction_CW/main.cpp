@@ -128,7 +128,7 @@ public:
 		right.to_improper();
 		this->numerator = (get_numerator() * right.get_denominator()) + (right.get_numerator() * get_denominator());
 		this->denominator = get_denominator()* right.get_denominator();
-		this->to_proper();
+		to_proper();
 		return *this;
 	}
 
