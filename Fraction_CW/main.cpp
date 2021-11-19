@@ -1,4 +1,4 @@
-// Fraction_ClassWork
+п»ї// Fraction_ClassWork
 #include<iostream>
 using namespace std;
 using std::cin;
@@ -7,9 +7,9 @@ using std::endl;
 
 class Fraction
 {
-	int integer;		// Целая часть
-	int numerator;		// Числитель
-	int denominator;	// Знаменатель
+	int integer;		// Р¦РµР»Р°СЏ С‡Р°СЃС‚СЊ
+	int numerator;		// Р§РёСЃР»РёС‚РµР»СЊ
+	int denominator;	// Р—РЅР°РјРµРЅР°С‚РµР»СЊ
 
 public:
 	int get_integer()const
@@ -131,6 +131,16 @@ public:
 		to_proper();
 		return *this;
 	}
+	
+	Fraction operator-=(Fraction right)
+	{
+		to_improper();
+		right.to_improper();
+		this->numerator = (get_numerator() * right.get_denominator()) - (right.get_numerator() * get_denominator());
+		this->denominator = get_denominator()* right.get_denominator();
+		to_proper();
+		return *this;
+	}
 
 	void print()const
 	{
@@ -157,7 +167,7 @@ Fraction operator*(Fraction left, Fraction right)
 			left.get_numerator() * right.get_numerator(),
 			left.get_denominator() * right.get_denominator()
 		);*/
-		/*result.set_numerator(left.get_numerator() * right.get_numerator());		// сделали прям в result, в круглых скобках ()
+		/*result.set_numerator(left.get_numerator() * right.get_numerator());		// СЃРґРµР»Р°Р»Рё РїСЂСЏРј РІ result, РІ РєСЂСѓРіР»С‹С… СЃРєРѕР±РєР°С… ()
 		result.set_denominator(left.get_denominator() * right.get_denominator());*/
 		//result.to_proper();
 		//return result;
@@ -237,6 +247,9 @@ void main()
 	Fraction B(3, 4, 5);
 
 	A += B;
+	A.print();
+	
+	A -= B;
 	A.print();
 
 	Fraction C = A * B;
