@@ -47,6 +47,14 @@ public:
 		this->denominator = 1;
 		cout << "DefaultConstructor:" << this << endl;
 	}
+	
+	Fraction(const Fraction& other)
+	{
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyConstructor:" << this << endl;
+	}
 
 	Fraction(int integer)
 	{
@@ -103,6 +111,27 @@ public:
 		return inverted;
 	}
 
+	Fraction& operator=(const Fraction& other)
+	{
+
+		this->integer = other.integer;
+		this->numerator = other.numerator;
+		this->denominator = other.denominator;
+		cout << "CopyAssignment:\t" << this << endl;
+
+		return *this;
+	}
+
+	Fraction operator+=(Fraction right)
+	{
+		to_improper();
+		right.to_improper();
+		this->numerator = (get_numerator() * right.get_denominator()) + (right.get_numerator() * get_denominator());
+		this->denominator = get_denominator()* right.get_denominator();
+		this->to_proper();
+		return *this;
+	}
+
 	void print()const
 	{
 		if (integer) cout << integer;
@@ -117,6 +146,7 @@ public:
 	}
 
 };
+
 
 Fraction operator*(Fraction left, Fraction right)
 {
@@ -148,6 +178,28 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 			left.get_denominator() * right.get_numerator()
 		).to_proper();*/
 	return left * right.inverted();
+}
+
+Fraction operator+(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		(left.get_numerator() * right.get_denominator()) + (right.get_numerator() * left.get_denominator()),
+		 left.get_denominator() * right.get_denominator()
+	).to_proper();
+}
+
+Fraction operator-(Fraction left, Fraction right)
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		(left.get_numerator() * right.get_denominator()) - (right.get_numerator() * left.get_denominator()),
+		 left.get_denominator() * right.get_denominator()
+	).to_proper();
 }
 
 
@@ -183,9 +235,28 @@ void main()
 	A.to_proper();
 	A.print();*/
 	Fraction B(3, 4, 5);
+
+	A += B;
+	A.print();
+
 	Fraction C = A * B;
 	C.print();
 
 	C = A / B;
 	C.print();
+	
+	C = A + B;
+	C.print();
+	
+	C = A - B;
+	C.print();
+
+	Fraction D = C;
+	C.print();
+
+	A = B = C = Fraction(1, 2, 3);
+	A.print();
+	B.print();
+	C.print();
+
 }
