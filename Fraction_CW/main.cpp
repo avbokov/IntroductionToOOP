@@ -103,7 +103,31 @@ public:
 	{
 		return *this = *this * other;
 	}
+	
+	Fraction& operator/=(const Fraction& other)
+	{
+		return *this = *this * other.inverted();
+	}
 
+	Fraction operator+=(Fraction right)
+	{
+		to_improper();
+		right.to_improper();
+		this->numerator = (get_numerator() * right.get_denominator()) + (right.get_numerator() * get_denominator());
+		this->denominator = get_denominator()* right.get_denominator();
+		to_proper();
+		return *this;
+	}
+	
+	Fraction operator-=(Fraction right)
+	{
+		to_improper();
+		right.to_improper();
+		this->numerator = (get_numerator() * right.get_denominator()) - (right.get_numerator() * get_denominator());
+		this->denominator = get_denominator()* right.get_denominator();
+		to_proper();
+		return *this;
+	}
 
 	//			Increment/Decrement
 
@@ -117,6 +141,19 @@ public:
 	{
 		Fraction old = *this;
 		integer++;
+		return old;
+	}
+	
+	Fraction& operator--() // префикс
+	{
+		integer--;
+		return *this;
+	}
+	
+	Fraction operator--(int) // постфикс
+	{
+		Fraction old = *this;
+		integer--;
 		return old;
 	}
 
@@ -147,24 +184,25 @@ public:
 		return inverted;
 	}
 
+	Fraction& reduction() // сокращаем дробь, если это возможно
+	{
+		int nod;
+		for (int i = 1; i <= numerator; i++)
+		{
+			if (numerator % i == 0 && denominator % i == 0)
+			{
+				nod = i;
+			}
+		}
 
-	Fraction operator+=(Fraction right)
-	{
-		to_improper();
-		right.to_improper();
-		this->numerator = (get_numerator() * right.get_denominator()) + (right.get_numerator() * get_denominator());
-		this->denominator = get_denominator()* right.get_denominator();
-		to_proper();
-		return *this;
-	}
-	
-	Fraction operator-=(Fraction right)
-	{
-		to_improper();
-		right.to_improper();
-		this->numerator = (get_numerator() * right.get_denominator()) - (right.get_numerator() * get_denominator());
-		this->denominator = get_denominator()* right.get_denominator();
-		to_proper();
+		this->numerator = numerator / nod;
+		this->denominator = denominator / nod;
+		if (denominator == 1)
+		{
+			integer += numerator;
+			numerator = 0;
+			denominator = 0;
+		}
 		return *this;
 	}
 
@@ -180,7 +218,6 @@ public:
 		else if (integer == 0) cout << 0;
 		cout << endl;
 	}
-
 };
 
 
@@ -214,6 +251,60 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 			left.get_denominator() * right.get_numerator()
 		).to_proper();*/
 	return left * right.inverted();
+}
+
+Fraction operator==(Fraction left, Fraction right)
+{
+	if (left.get_integer()) left.to_improper();
+	if (right.get_integer()) right.to_improper();
+
+	bool comparison_result = false;
+	if ((left.get_numerator() == right.get_numerator()) && (left.get_denominator() == right.get_denominator())) comparison_result = true;
+	return comparison_result;
+}
+
+Fraction operator!=(Fraction left, Fraction right)
+{
+	if (left.get_integer()) left.to_improper();
+	if (right.get_integer()) right.to_improper();
+
+	bool comparison_result = false;
+	if ((left.get_numerator() != right.get_numerator()) || (left.get_denominator() != right.get_denominator())) comparison_result = true;
+	return comparison_result;
+}
+
+Fraction operator>(Fraction left, Fraction right)
+{
+	left.reduction();
+	right.reduction();
+
+	left.to_improper();
+	right.to_improper();
+
+	left.set_numerator(left.get_numerator() * right.get_denominator());
+	right.set_numerator(left.get_denominator() * right.get_numerator());
+
+	bool comparison_result = false;
+	if (left.get_numerator() > right.get_numerator()) comparison_result = true;
+
+	return comparison_result;
+}
+
+Fraction operator<(Fraction left, Fraction right)
+{
+	left.reduction();
+	right.reduction();
+
+	left.to_improper();
+	right.to_improper();
+
+	left.set_numerator(left.get_numerator() * right.get_denominator());
+	right.set_numerator(left.get_denominator() * right.get_numerator());
+
+	bool comparison_result = false;
+	if (left.get_numerator() < right.get_numerator()) comparison_result = true;
+
+	return comparison_result;
 }
 
 Fraction operator+(Fraction left, Fraction right)
@@ -326,17 +417,28 @@ void main()
 	A.print();*/
 	Fraction B(3, 4, 5);
 
-	A *= B;
 	A = B++;
+	A.print();
+	A = ++B;
+	A.print();
+
+	A = B--;
+	A.print();
+	A = --B;
+	A.print();
+
+	A *= B;
+	A.print();
+
+	A /= B;
+	A.print();
+
 	A.print();
 	B.print();
 
 	cout << A << endl;
 	cout << B << endl;
-
-	/*A *= B;
-	A.print();*/
-
+		
 	/*A += B;
 	A.print();
 
@@ -358,7 +460,7 @@ void main()
 	Fraction D = C;
 	C.print();
 
-	A = B = C = Fraction(1, 2, 3);
+	A = B = C = Fraction(1, 2, 3); // Разобраться!!!
 	A.print();
 	B.print();
 	C.print();*/
@@ -368,5 +470,19 @@ void main()
 	cout << "Введите простую дробь: "; cin >> A;
 	cout << A << endl;
 	
+	Fraction B;
+	cout << "Введите простую дробь: "; cin >> B;
+	cout << B << endl;
+	
+	A.reduction();
+	A.print();
+	
+	B.reduction();
+	B.print();
+
+	cout << operator==(A, B) << endl;
+	cout << operator!=(A, B) << endl;
+	cout << operator>(A, B) << endl;
+	cout << operator<(A, B) << endl;
 
 }
