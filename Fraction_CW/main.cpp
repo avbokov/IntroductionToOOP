@@ -253,7 +253,7 @@ Fraction operator/(const Fraction& left, const Fraction& right)
 	return left * right.inverted();
 }
 
-Fraction operator==(Fraction left, Fraction right)
+bool operator==(Fraction left, Fraction right)
 {
 	if (left.get_integer()) left.to_improper();
 	if (right.get_integer()) right.to_improper();
@@ -263,7 +263,7 @@ Fraction operator==(Fraction left, Fraction right)
 	return comparison_result;
 }
 
-Fraction operator!=(Fraction left, Fraction right)
+bool operator!=(Fraction left, Fraction right)
 {
 	if (left.get_integer()) left.to_improper();
 	if (right.get_integer()) right.to_improper();
@@ -273,7 +273,7 @@ Fraction operator!=(Fraction left, Fraction right)
 	return comparison_result;
 }
 
-Fraction operator>(Fraction left, Fraction right)
+bool operator>(Fraction left, Fraction right)
 {
 	left.reduction();
 	right.reduction();
@@ -290,7 +290,7 @@ Fraction operator>(Fraction left, Fraction right)
 	return comparison_result;
 }
 
-Fraction operator<(Fraction left, Fraction right)
+bool operator<(Fraction left, Fraction right)
 {
 	left.reduction();
 	right.reduction();
