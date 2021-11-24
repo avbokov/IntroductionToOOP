@@ -67,6 +67,26 @@ public:
 		cout << "SingleArgumentConstructor:" << this << endl;
 	}
 
+	Fraction(double des_drob)
+	{
+		this->integer = (int)des_drob;
+		
+		double drob_part = des_drob - (int)des_drob;
+		int kol_znak = 0;
+		while (drob_part != 0)
+		{
+			drob_part *= 10;
+			drob_part = drob_part - (int)drob_part;
+			kol_znak++;
+		}
+
+		this->numerator = (des_drob - (int)des_drob)*pow(10, kol_znak);
+		this->denominator = pow(10, kol_znak);
+
+		//reduce();
+		
+	}
+
 	Fraction(int numerator, int denominator)
 	{
 		this->integer = 0;
@@ -242,7 +262,7 @@ public:
 		denominator /= GCD;
 		return *this;
 	}
-
+		
 	void print()const
 	{
 		if (integer) cout << integer;
@@ -633,6 +653,6 @@ cout << operator<(A, B) << endl;*/
 	cout << A.reduce() << endl;
 	cout << Fraction(840, 3600).reduce() << endl;*/
 
-	Fraction A = 2.75;	// Перевести в простую дробь
+	Fraction A = 2.751;	// Перевести в простую дробь
 	cout << A << endl;
 }
