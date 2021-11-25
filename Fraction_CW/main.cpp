@@ -653,6 +653,6 @@ cout << operator<(A, B) << endl;*/
 	cout << A.reduce() << endl;
 	cout << Fraction(840, 3600).reduce() << endl;*/
 
-	Fraction A = 2.751;	// Перевести в простую дробь
+	Fraction A = 2.75;	// Перевести в простую дробь
 	cout << A << endl;
 }
