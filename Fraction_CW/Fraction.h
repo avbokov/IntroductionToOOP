@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<iostream>
 using namespace std;
 using std::cin;
@@ -11,9 +11,9 @@ ostream& operator<<(ostream& os, const Fraction& obj);
 
 class Fraction
 {
-	int integer;		// Öåëàÿ ÷àñòü
-	int numerator;		// ×èñëèòåëü
-	int denominator;	// Çíàìåíàòåëü
+	int integer;		// Ð¦ÐµÐ»Ð°Ñ Ñ‡Ð°ÑÑ‚ÑŒ
+	int numerator;		// Ð§Ð¸ÑÐ»Ð¸Ñ‚ÐµÐ»ÑŒ
+	int denominator;	// Ð—Ð½Ð°Ð¼ÐµÐ½Ð°Ñ‚ÐµÐ»ÑŒ
 
 public:
 
@@ -29,7 +29,7 @@ public:
 	Fraction();
 	Fraction(const Fraction& other);
 
-	// explicit - ÿâíûé
+	// explicit - ÑÐ²Ð½Ñ‹Ð¹
 	explicit Fraction(int integer);
 
 	Fraction(double decimal);
@@ -62,7 +62,7 @@ public:
 	//	this->numerator = other.numerator;
 	//	this->denominator = other.denominator;
 	//	cout << "CopyAssignment:\t" << this << endl;
-	//	return *this; // ÎÏÅÐÀÒÎÐ ÏÐÈÑÂÀÈÂÀÍÈß ÂÑÅÃÄÀ ÂÎÇÂÐÀÙÀÅÒ ÐÀÇÈÌÅÍÎÂÀÍÍÛÉ THIS !!!
+	//	return *this; // ÐžÐŸÐ•Ð ÐÐ¢ÐžÐ  ÐŸÐ Ð˜Ð¡Ð’ÐÐ˜Ð’ÐÐÐ˜Ð¯ Ð’Ð¡Ð•Ð“Ð”Ð Ð’ÐžÐ—Ð’Ð ÐÐ©ÐÐ•Ð¢ Ð ÐÐ—Ð˜ÐœÐ•ÐÐžÐ’ÐÐÐÐ«Ð™ THIS !!!
 	//}
 
 	Fraction& operator*=(const Fraction& other);
@@ -72,10 +72,10 @@ public:
 
 	//			Increment/Decrement
 
-	Fraction& operator++(); // ïðåôèêñ
-	Fraction operator++(int); // ïîñòôèêñ
-	Fraction& operator--(); // ïðåôèêñ
-	Fraction operator--(int); // ïîñòôèêñ
+	Fraction& operator++(); // Ð¿Ñ€ÐµÑ„Ð¸ÐºÑ
+	Fraction operator++(int); // Ð¿Ð¾ÑÑ‚Ñ„Ð¸ÐºÑ
+	Fraction& operator--(); // Ð¿Ñ€ÐµÑ„Ð¸ÐºÑ
+	Fraction operator--(int); // Ð¿Ð¾ÑÑ‚Ñ„Ð¸ÐºÑ
 
 	//			Type-cast operators:
 
@@ -87,7 +87,7 @@ public:
 	Fraction& to_improper();
 	Fraction& to_proper();
 	Fraction inverted()const;
-	Fraction& reduction(); // ñîêðàùàåì äðîáü, åñëè ýòî âîçìîæíî
+	Fraction& reduction(); // ÑÐ¾ÐºÑ€Ð°Ñ‰Ð°ÐµÐ¼ Ð´Ñ€Ð¾Ð±ÑŒ, ÐµÑÐ»Ð¸ ÑÑ‚Ð¾ Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾
 	Fraction& reduce();
 
 	void print()const;

@@ -1,4 +1,4 @@
-#include"Fraction.h"
+п»ї#include"Fraction.h"
 
 int Fraction::get_integer()const
 {
@@ -43,7 +43,7 @@ Fraction::Fraction(const Fraction& other)
 	this->denominator = other.denominator;
 	cout << "CopyConstructor:" << this << endl;
 }
-// explicit - явный
+// explicit - СЏРІРЅС‹Р№
 Fraction::Fraction(int integer)
 {
 	this->integer = integer;
@@ -54,7 +54,7 @@ Fraction::Fraction(int integer)
 
 Fraction::Fraction(double decimal)
 {
-	//decimal += 1e-10;   // так тоже можно скомпенсировать неправильную дробную часть
+	//decimal += 1e-10;   // С‚Р°Рє С‚РѕР¶Рµ РјРѕР¶РЅРѕ СЃРєРѕРјРїРµРЅСЃРёСЂРѕРІР°С‚СЊ РЅРµРїСЂР°РІРёР»СЊРЅСѓСЋ РґСЂРѕР±РЅСѓСЋ С‡Р°СЃС‚СЊ
 	this->integer = decimal;
 	decimal -= integer;
 	this->denominator = 1e+9;
@@ -107,7 +107,7 @@ Fraction::~Fraction()
 //	this->numerator = other.numerator;
 //	this->denominator = other.denominator;
 //	cout << "CopyAssignment:\t" << this << endl;
-//	return *this; // ОПЕРАТОР ПРИСВАИВАНИЯ ВСЕГДА ВОЗВРАЩАЕТ РАЗИМЕНОВАННЫЙ THIS !!!
+//	return *this; // РћРџР•Р РђРўРћР  РџР РРЎР’РђРР’РђРќРРЇ Р’РЎР•Р“Р”Рђ Р’РћР—Р’Р РђР©РђР•Рў Р РђР—РРњР•РќРћР’РђРќРќР«Р™ THIS !!!
 //}
 
 Fraction& Fraction::operator*=(const Fraction& other)
@@ -142,26 +142,26 @@ Fraction Fraction::operator-=(Fraction right)
 
 //			Increment/Decrement
 
-Fraction& Fraction::operator++() // префикс
+Fraction& Fraction::operator++() // РїСЂРµС„РёРєСЃ
 {
 	integer++;
 	return *this;
 }
 
-Fraction Fraction::operator++(int) // постфикс
+Fraction Fraction::operator++(int) // РїРѕСЃС‚С„РёРєСЃ
 {
 	Fraction old = *this;
 	integer++;
 	return old;
 }
 
-Fraction& Fraction::operator--() // префикс
+Fraction& Fraction::operator--() // РїСЂРµС„РёРєСЃ
 {
 	integer--;
 	return *this;
 }
 
-Fraction Fraction::operator--(int) // постфикс
+Fraction Fraction::operator--(int) // РїРѕСЃС‚С„РёРєСЃ
 {
 	Fraction old = *this;
 	integer--;
@@ -205,7 +205,7 @@ Fraction Fraction::inverted()const
 	return inverted;
 }
 
-Fraction& Fraction::reduction() // сокращаем дробь, если это возможно
+Fraction& Fraction::reduction() // СЃРѕРєСЂР°С‰Р°РµРј РґСЂРѕР±СЊ, РµСЃР»Рё СЌС‚Рѕ РІРѕР·РјРѕР¶РЅРѕ
 {
 	int nod;
 	for (int i = 1; i <= numerator; i++)
@@ -230,7 +230,7 @@ Fraction& Fraction::reduction() // сокращаем дробь, если это возможно
 Fraction& Fraction::reduce()
 {
 	int more, less;
-	int rest;	// отстаток от деления
+	int rest;	// РѕС‚СЃС‚Р°С‚РѕРє РѕС‚ РґРµР»РµРЅРёСЏ
 	if (numerator > denominator)
 	{
 		more = numerator;
@@ -248,7 +248,7 @@ Fraction& Fraction::reduce()
 		less = rest;
 	} while (rest);
 	int GCD = more;
-	//	GCD - Greatest Common Divisor (наибольшим общий делитель)
+	//	GCD - Greatest Common Divisor (РЅР°РёР±РѕР»СЊС€РёРј РѕР±С‰РёР№ РґРµР»РёС‚РµР»СЊ)
 	numerator /= GCD;
 	denominator /= GCD;
 	return *this;
@@ -276,7 +276,7 @@ Fraction operator*(Fraction left, Fraction right)
 			left.get_numerator() * right.get_numerator(),
 			left.get_denominator() * right.get_denominator()
 		);*/
-		/*result.set_numerator(left.get_numerator() * right.get_numerator());		// сделали прям в result, в круглых скобках ()
+		/*result.set_numerator(left.get_numerator() * right.get_numerator());		// СЃРґРµР»Р°Р»Рё РїСЂСЏРј РІ result, РІ РєСЂСѓРіР»С‹С… СЃРєРѕР±РєР°С… ()
 		result.set_denominator(left.get_denominator() * right.get_denominator());*/
 		//result.to_proper();
 		//return result;
@@ -440,24 +440,24 @@ istream& operator>>(istream& is, Fraction& obj)
 	obj.set_numerator(numerator);
 	obj.set_denominator(denominator);*/
 
-	const int SIZE = 80; // размер строки в байтах!
+	const int SIZE = 80; // СЂР°Р·РјРµСЂ СЃС‚СЂРѕРєРё РІ Р±Р°Р№С‚Р°С…!
 	char buffer[SIZE] = {};
 	//is >> buffer;
-	is.getline(buffer, SIZE); // позволяет ввести строку с пробелами
+	is.getline(buffer, SIZE); // РїРѕР·РІРѕР»СЏРµС‚ РІРІРµСЃС‚Рё СЃС‚СЂРѕРєСѓ СЃ РїСЂРѕР±РµР»Р°РјРё
 	//5
 	//1/2
 	//2(3/4)
 	//2 3/4
-	char delimiters[] = "() /"; // разделители, по которым мы будем делать строку
-	char* number[5];	// в этом массиве будут храниться указатели на числа в buffer
-	int n = 0; // счётчик прочитанных из строки числе
+	char delimiters[] = "() /"; // СЂР°Р·РґРµР»РёС‚РµР»Рё, РїРѕ РєРѕС‚РѕСЂС‹Рј РјС‹ Р±СѓРґРµРј РґРµР»Р°С‚СЊ СЃС‚СЂРѕРєСѓ
+	char* number[5];	// РІ СЌС‚РѕРј РјР°СЃСЃРёРІРµ Р±СѓРґСѓС‚ С…СЂР°РЅРёС‚СЊСЃСЏ СѓРєР°Р·Р°С‚РµР»Рё РЅР° С‡РёСЃР»Р° РІ buffer
+	int n = 0; // СЃС‡С‘С‚С‡РёРє РїСЂРѕС‡РёС‚Р°РЅРЅС‹С… РёР· СЃС‚СЂРѕРєРё С‡РёСЃР»Рµ
 	for (char* pch = strtok(buffer, delimiters); pch; pch = strtok(NULL, delimiters))
 	{
 		number[n++] = pch;
 	}
 	switch (n)
 	{
-		// int atoi(char* str) - преобразует строку в целое число
+		// int atoi(char* str) - РїСЂРµРѕР±СЂР°Р·СѓРµС‚ СЃС‚СЂРѕРєСѓ РІ С†РµР»РѕРµ С‡РёСЃР»Рѕ
 	case 1: obj.set_integer(atoi(number[0])); break;
 	case 2:
 		obj.set_numerator(atoi(number[0]));
