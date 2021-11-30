@@ -1,4 +1,4 @@
-//String_header_initialisation
+//String_constructor_delegation
 #include<iostream>
 using namespace std;
 using std::cin;
@@ -39,7 +39,7 @@ public:
 		cout << "DefConstructor:\t" << this << endl;
 	}
 
-	String(const char* str) :size(strlen(str) + 1), str(new char[size] {}) // такая форма записи только для конструкторов
+	String(const char* str) :String(strlen(str)+1) // такая форма записи только для конструкторов
 	{
 		//this->size = strlen(str) + 1;
 		//this->str = new char[size] {};
@@ -47,12 +47,12 @@ public:
 		cout << "Constructor:\t" << this << endl;
 	}
 
-	String(const String& other) : size(other.size), str(new char[size] {}) // такая форма записи только для конструкторов
+	String(const String& other) : String(other.str) // такая форма записи только для конструкторов
 	{
 		//	Deep copy
 		//this->size = other.size;
 		//this->str = new char[size] {};
-		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
+		//for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:" << this << endl;
 	}
 
