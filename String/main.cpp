@@ -6,7 +6,7 @@ using std::cout;
 using std::endl;
 
 class String;
-String operator+(String left, String right);
+String operator+(const String& left, const String& right);
 
 class String
 {
@@ -89,7 +89,7 @@ public:
 
 	String& operator+=(const String& right)
 	{
-	return *this = *this + right.operator+();
+	return *this = *this + right;
 	}
 
 	//				Methods:
