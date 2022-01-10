@@ -140,6 +140,7 @@ ostream& operator<<(ostream& os, const Point& obj)
 //#define DISTANCE_CHECK
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGMENT_CHECK
+//#define ARITHMETICAL_OPERATORS_CHECK
 
 void main()
 {
@@ -214,7 +215,7 @@ void main()
 	C.print();
 #endif // ASSIGMENT_CHECK
 
-//#define ARITHMETICAL_OPERATORS_CHECK
+#ifdef ARITHMETICAL_OPERATORS_CHECK
 
 	int a = 2;
 	int b = 2;
@@ -237,7 +238,6 @@ void main()
 	}*/
 
 
-#ifdef ARITHMETICAL_OPERATORS_CHECK
 	Point C = A + B;
 	C.print();
 	Point D = A - B;
